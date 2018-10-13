@@ -1,6 +1,7 @@
 {
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint-config-prettier"
   ],
   "rules": {
     "arrow-parens": false,
@@ -8,6 +9,7 @@
       true,
       "never-prefix"
     ],
+    "no-console": false,
     "max-classes-per-file": [
       false
     ],
@@ -16,6 +18,7 @@
       "check-accessor",
       "check-constructor"
     ],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     // Disabled till there’s an auto-fixer for this.
     // https://github.com/palantir/tslint/blob/master/src/rules/objectLiteralSortKeysRule.ts
     "object-literal-sort-keys": false,

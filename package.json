@@ -5,6 +5,9 @@
   "main": "build/index.js",
   "author": "Ash Furrow <ash@ashfurrow.com> & Art.sy Inc",
   "license": "MIT",
+  "peerDependencies": {
+    "graphql": "^14.0.2"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
@@ -18,7 +21,8 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "graphql": "^14.0.2"
   },
   "scripts": {
     "type-check": "tsc --noEmit",
@@ -49,8 +53,5 @@
       "yarn prettier --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "graphql": "^14.0.2"
   }
 }

@@ -1,4 +1,4 @@
-import { BREAK, parse, visit } from "graphql"
+import * as GraphQL from "graphql"
 import * as Lint from "tslint"
 import * as ts from "typescript"
 
@@ -71,7 +71,7 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
   visitOperationConfiguration(
     node: ts.CallExpression | ts.JsxSelfClosingElement,
     expression: ts.Expression,
-    functionOrTagName: any,
+    functionOrTagName: any
   ) {
     const taggedTemplate = expression as ts.TaggedTemplateExpression
     if (
@@ -93,12 +93,12 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
             typeArgument.getStart(),
             typeArgument.getWidth(),
             operationName,
-            operationName,
+            operationName
           )
           this.addFailureAtNode(
             typeArgument,
             `expected operation type parameter to be \`${operationName}\``,
-            fixes,
+            fixes
           )
         }
       }
@@ -183,12 +183,12 @@ function getOperationName(taggedTemplate: ts.TaggedTemplateExpression): string |
   // Strip backticks
   const source = template.substring(1, template.length - 1)
 
-  const ast = parse(source)
+  const ast = GraphQL.parse(source)
   let queryName = null
-  visit(ast, {
+  GraphQL.visit(ast, {
     OperationDefinition(node) {
       queryName = node.name.value
-      return BREAK
+      return GraphQL.BREAK
     },
   })
 

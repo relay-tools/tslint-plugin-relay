@@ -3,9 +3,6 @@ import * as Lint from "tslint"
 import * as ts from "typescript"
 
 class Rule extends Lint.Rules.AbstractRule {
-  /**
-   * @param {ts.SourceFile} sourceFile
-   */
   apply(sourceFile) {
     return this.applyWithWalker(new RelayOperationGenericsWalker(sourceFile, this.getOptions()))
   }
@@ -32,7 +29,10 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
         ) {
           const initializer = property.initializer
           if (initializer.kind === ts.SyntaxKind.JsxExpression) {
-            this.visitOperationConfiguration(node, initializer.expression, node.tagName)
+            const expression = initializer.expression
+            if (expression) {
+              this.visitOperationConfiguration(node, expression, node.tagName)
+            }
           } else {
             this.addFailureAtNode(initializer, "expected a graphql`…` tagged-template expression")
           }
@@ -81,8 +81,10 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
       const typeArgument = node.typeArguments && (node.typeArguments[0] as ts.TypeReferenceNode)
       if (!typeArgument) {
         const operationName = getOperationName(taggedTemplate)
-        const fixes = this.createFixes(functionOrTagName.getEnd(), 0, `<${operationName}>`, operationName)
-        this.addFailureAtNode(functionOrTagName, "missing operation type parameter", fixes)
+        if (operationName) {
+          const fixes = this.createFixes(functionOrTagName.getEnd(), 0, `<${operationName}>`, operationName)
+          this.addFailureAtNode(functionOrTagName, "missing operation type parameter", fixes)
+        }
       } else {
         const operationName = getOperationName(taggedTemplate)
         if (

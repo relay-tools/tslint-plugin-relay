@@ -71,7 +71,7 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
   visitOperationConfiguration(
     node: ts.CallExpression | ts.JsxSelfClosingElement,
     expression: ts.Expression,
-    functionOrTagName: any
+    functionOrTagName: any,
   ) {
     const taggedTemplate = expression as ts.TaggedTemplateExpression
     if (
@@ -95,12 +95,12 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
             typeArgument.getStart(),
             typeArgument.getWidth(),
             operationName,
-            operationName
+            operationName,
           )
           this.addFailureAtNode(
             typeArgument,
             `expected operation type parameter to be \`${operationName}\``,
-            fixes
+            fixes,
           )
         }
       }

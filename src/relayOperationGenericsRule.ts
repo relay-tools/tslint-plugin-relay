@@ -2,20 +2,17 @@ import * as GraphQL from "graphql"
 import * as Lint from "tslint"
 import * as ts from "typescript"
 
-class Rule extends Lint.Rules.AbstractRule {
+export class Rule extends Lint.Rules.AbstractRule {
   apply(sourceFile) {
     return this.applyWithWalker(new RelayOperationGenericsWalker(sourceFile, this.getOptions()))
   }
 }
 
 class RelayOperationGenericsWalker extends Lint.RuleWalker {
-  _imports: ts.ImportDeclaration[] = []
-  getImports() {
-    return this._imports
-  }
+  imports: ts.ImportDeclaration[] = []
 
   visitImportDeclaration(node: ts.ImportDeclaration) {
-    this._imports.push(node)
+    this.imports.push(node)
     super.visitImportDeclaration(node)
   }
 
@@ -71,7 +68,7 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
   visitOperationConfiguration(
     node: ts.CallExpression | ts.JsxSelfClosingElement,
     expression: ts.Expression,
-    functionOrTagName: any,
+    functionOrTagName: ts.Node,
   ) {
     const taggedTemplate = expression as ts.TaggedTemplateExpression
     if (
@@ -109,13 +106,6 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
     }
   }
 
-  /**
-   * @param {number} start
-   * @param {number} width
-   * @param {string} replacement
-   * @param {string} operationName
-   * @returns {Lint.Replacement[]}
-   */
   createFixes(start: number, width: number, replacement: string, operationName: string): Lint.Replacement[] {
     const fixes = [new Lint.Replacement(start, width, replacement)]
     if (!this.hasImportForOperation(operationName)) {
@@ -124,10 +114,7 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
     return fixes
   }
 
-  /**
-   * @param {string} operationName
-   */
-  importPathForOperation(operationName) {
+  importPathForOperation(operationName: string) {
     const options = this.getOptions()[0] || {
       artifactDirectory: "__generated__",
       makeRelative: false,
@@ -138,12 +125,11 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
     return `${options.artifactDirectory}/${operationName}.graphql`
   }
 
-  importDeclarationFixForOperation(operationName) {
+  importDeclarationFixForOperation(operationName: string) {
     const path = this.importPathForOperation(operationName)
     const importDeclaration = `import { ${operationName} } from "${path}"\n`
 
-    const imports = this.getImports()
-    const lastImport = imports[imports.length - 1]
+    const lastImport = this.imports[this.imports.length - 1]
 
     let start = 0
     if (lastImport) {
@@ -153,24 +139,13 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
     return new Lint.Replacement(start, 0, importDeclaration)
   }
 
-  /**
-   * @param {string} operationName
-   */
-  hasImportForOperation(operationName) {
-    // TODO: So many hoops to jump through without TS :/
-    /** @type {any} */
-    let asdf
-
+  hasImportForOperation(operationName: string) {
     const importPath = this.importPathForOperation(operationName)
 
-    return this.getImports().some(node => {
-      asdf = node.moduleSpecifier
-      /** @type {ts.StringLiteral} */
-      const path = asdf
+    return this.imports.some(node => {
+      const path = node.moduleSpecifier as ts.StringLiteral
       if (path.text === importPath && node.importClause) {
-        asdf = node.importClause.namedBindings
-        /** @type {ts.NamedImports} */
-        const namedBindings = asdf
+        const namedBindings = node.importClause.namedBindings as ts.NamedImports
         if (namedBindings) {
           return namedBindings.elements.some(element => element.name.getText() === operationName)
         }
@@ -196,5 +171,3 @@ function getOperationName(taggedTemplate: ts.TaggedTemplateExpression): string |
 
   return queryName
 }
-
-module.exports = { Rule }

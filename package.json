@@ -1,6 +1,6 @@
 {
   "name": "tslint-plugin-relay",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "build/tslint-base.json",
   "author": "Ash Furrow <ash@ashfurrow.com> & Art.sy Inc",
@@ -12,6 +12,7 @@
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "danger": "^4.0.2",
+    "graphql": "^14.0.2",
     "husky": "^1.0.0",
     "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
@@ -21,8 +22,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.3",
-    "graphql": "^14.0.2"
+    "typescript": "^3.0.3"
   },
   "scripts": {
     "type-check": "tsc --noEmit",

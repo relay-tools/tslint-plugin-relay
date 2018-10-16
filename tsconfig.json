@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "rootDir": "src",
+        "rootDir": "rules",
         "outDir": "build",
         "allowJs": false,
         "pretty": true,
@@ -11,8 +11,8 @@
     },
     "lib":["es2017"],
     "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
+        "rules/**/*.ts",
+        "rules/**/*.tsx",
         "dangerfile.ts"
     ],
     "exclude": [

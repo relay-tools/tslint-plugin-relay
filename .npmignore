@@ -1,7 +1,7 @@
 .editorconfig
 .travis.yml
 node_modules/
-src/
+rules/
 dangerfile.ts
 tsconfig.json
 tslint.json

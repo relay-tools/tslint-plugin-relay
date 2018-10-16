@@ -2,7 +2,7 @@
   "name": "tslint-plugin-relay",
   "version": "0.0.1",
   "description": "",
-  "main": "build/index.js",
+  "main": "build/tslint-base.json",
   "author": "Ash Furrow <ash@ashfurrow.com> & Art.sy Inc",
   "license": "MIT",
   "peerDependencies": {
@@ -26,8 +26,8 @@
   },
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "tsc",
-    "lint": "tslint 'src/**/*.{ts,tsx}'",
+    "build": "tsc && cp tslint-*.json build/",
+    "lint": "tslint 'rules/**/*.{ts,tsx}'",
     "release": "release-it"
   },
   "jest": {

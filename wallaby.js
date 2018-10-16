@@ -2,12 +2,12 @@ module.exports = function(wallaby) {
   return {
     files: [
       "tsconfig.json",
-      "src/**/*.ts?(x)",
-      "src/**/*.snap",
-      "src/**/*.json",
-      "!src/**/*.test.ts?(x)",
+      "rules/**/*.ts?(x)",
+      "rules/**/*.snap",
+      "rules/**/*.json",
+      "!rules/**/*.test.ts?(x)",
     ],
-    tests: ["src/**/*.test.ts?(x)"],
+    tests: ["rules/**/*.test.ts?(x)"],
 
     env: {
       type: "node",

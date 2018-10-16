@@ -1,0 +1,6 @@
+{
+  "extends": "./tslint-base.json",
+  "rules": {
+      "tslint-plugin-relay": true
+    }
+}

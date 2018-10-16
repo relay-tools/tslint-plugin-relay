@@ -46,7 +46,6 @@ class RelayOperationGenericsWalker extends Lint.RuleWalker {
     if (functionName.text === "commitMutation") {
       const config = node.arguments[1] as undefined | ts.ObjectLiteralExpression
       if (config && config.kind === ts.SyntaxKind.ObjectLiteralExpression) {
-        // any = this.visitOperationConfiguration(node, config, functionName)
         for (const property of config.properties) {
           if (property.name && property.name.getText() === "mutation") {
             if (property.kind === ts.SyntaxKind.PropertyAssignment) {

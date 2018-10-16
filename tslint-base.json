@@ -1,3 +1,4 @@
 {
-  "rulesDirectory": "./build"
+  // This gets copied to ./build on compile, so it needs to reference that directory for rules.
+  "rulesDirectory": "./"
 }

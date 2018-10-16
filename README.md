@@ -15,7 +15,7 @@ Add `tslint-plugin-relay` as a `devDependency` using `yarn add -D tslint-plugin-
   ],
 ```
 
-Now you can add rules from this repo to the `rules` dictionary.
+Now you can add rules from this repo to the `rules` dictionary. See [this blog post](https://palantir.github.io/tslint/2016/03/31/sharable-configurations-rules.html) for more information on sharing rules and configurations across projects.
 
 ### Rules
 

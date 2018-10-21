@@ -31,7 +31,8 @@
     "release": "release-it"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testMatch": ["**/*.test.ts"]
   },
   "prettier": {
     "printWidth": 115,

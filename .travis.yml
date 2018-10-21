@@ -1,4 +1,9 @@
 language: node_js
+node_js: '8.12'
+
+env:
+  global:
+    secure: DWak/cxobBhymsdlly4al7JFVg2cmXmbnpvy6JAWPUJYI2pMvSAOjPUujlCsOULoNsxpnBTd8M4s0BzifNe0YBKeov4B/c/Zk02zopiq+lAz6HauHOnwhSVF7/gOX/zXJ/hY5zGmoylZvW2kJ8IWCqrpoe3iwzs6oRu8qu8dBBdhxjfpB7Ppqqs2LeVUxublXx7UDIxiJe7MRixIN+8GkHP8C1QNLlvwsS0BB/iSCd9hmzw1v8ZcD6TOVQuFZVoi1Et8Zn2hqWP+avDa+xz2ISFX3hkOzWIOoDkl1B5c8iU2C2SmFlR2IjBiKCWiLGQZlg+cS1V2/XDcO1YHZTe6I8UtmBvMY64sZvTEjmmY8agmOTSDxPWBCmUOyx4wGZeMP/6//W4KBL4cmLSJSIdrZdOQGTWzVlXSwAsjxLfBLbiV7hwbDUQ+t997N5xTEF4+COg91UDv5gCl3FzPw/ESZH7I/y/MiYGwinx/m57wdV13c4U601wR9p8a5tGbIuCluFFTIYO17ga3iyLSw6CggrvmLYBeNNVdaUdkyylzBAxDs47CfZAmrz7bvkcY454fNEE0xV4UROWOmKsoHfNE+3KF/jJk3JCxHjLRBPs/qJpnvMAbdxLczzsRrxTAgL/7plrUF8chp9RLowOxbA4PqnxLw5H6oeicGPCJuIyn5lk=
 
 cache:
   yarn: true
@@ -9,4 +14,4 @@ cache:
 script:
 - yarn lint
 - yarn jest
-- yarn danger
+- yarn danger ci

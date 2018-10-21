@@ -26,6 +26,7 @@ Helps enforce type safety and adherence to the following TypeScript/Relay conven
 - `QueryRenderer` components must include type parameters (includes fix).
 - `QueryRenderer` components must use `graphql` tagged template strings for their `query` prop.
 - calls to `commitMutation` must use  `graphql` tagged template strings for their `mutation` option.
+- calls to `commitMutation` must include type parameters (includes fix).
 - calls to `commitMutation` must use full object literal syntax for their `mutation` option.
 
 ```json

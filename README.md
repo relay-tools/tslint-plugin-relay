@@ -1,4 +1,4 @@
-tslint-plugin-relay
+# tslint-plugin-relay [![Build Status](https://travis-ci.org/relay-tools/tslint-plugin-relay.svg?branch=master)](https://travis-ci.org/relay-tools/tslint-plugin-relay)
 
 This is a work-in-progress to migrate Relay linting rules from [Artsy](https://github.com/artsy/reaction/blob/7e0b8bc25b18e7e2335d1f0165cce88336da5d1c/tslint/relayOperationGenericsRule.js) and from [eslint-plugin-relay](https://github.com/relayjs/eslint-plugin-relay) to [TSLint](https://palantir.github.io/tslint/).
 

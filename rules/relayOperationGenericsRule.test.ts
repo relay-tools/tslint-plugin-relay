@@ -1,8 +1,26 @@
-import { IOptions, Replacement } from "tslint"
+import { flatMap } from "lodash"
+import { IOptions, Replacement, RuleFailure } from "tslint"
 import { createSourceFile, ScriptKind, ScriptTarget } from "typescript"
 import { Rule } from "./relayOperationGenericsRule"
 
 import * as dedent from "dedent"
+
+const applyRuleToSourceText = (text: string, options: IOptions = ruleOptions) => {
+  const rule = new Rule(options)
+  const sourceFile = createSourceFile("tmp.ts", text, ScriptTarget.ES2016, true, ScriptKind.TSX)
+  return rule.apply(sourceFile)
+}
+
+const applyRuleFixes = (text: string, rule: RuleFailure | RuleFailure[]) => {
+  const rules = rule instanceof Array ? rule : [rule]
+  const fixes = flatMap(
+    rules
+      .filter(r => r.hasFix())
+      .map(r => r.getFix()!)
+      .map(f => (f instanceof Array ? f : [f])),
+  )
+  return Replacement.applyAll(text, fixes)
+}
 
 const ruleOptions: IOptions = {
   ruleArguments: [],
@@ -11,15 +29,9 @@ const ruleOptions: IOptions = {
   disabledIntervals: [],
 }
 
-const applyRuleToSourceText = (text: string, options: IOptions = ruleOptions) => {
-  const rule = new Rule(options)
-  const sourceFile = createSourceFile("tmp.ts", text, ScriptTarget.ES2016, true, ScriptKind.TSX)
-  return rule.apply(sourceFile)
-}
-
 describe("QueryRenderer", () => {
   it("requires graphql tagged template", () => {
-    const result = applyRuleToSourceText(dedent`
+    const result = applyRuleToSourceText(`
       <QueryRenderer
       query={""} />
     `)
@@ -28,7 +40,7 @@ describe("QueryRenderer", () => {
   })
 
   it("requires QueryRenderers to have type parameters", () => {
-    const result = applyRuleToSourceText(dedent`
+    const result = applyRuleToSourceText(`
       <QueryRenderer
       query={graphql\`
         query FavoriteArtistsQuery {
@@ -56,9 +68,7 @@ describe("QueryRenderer", () => {
     const result = applyRuleToSourceText(sourceText)
 
     expect(result[0].hasFix()).toBeTruthy()
-    const fix = result[0].getFix()!
-    const fixes = fix instanceof Array ? fix : [fix]
-    expect(Replacement.applyAll(sourceText, fixes)).toEqual(dedent`
+    expect(applyRuleFixes(sourceText, result)).toEqual(dedent`
       import { FavoriteArtistsQuery } from "__generated__/FavoriteArtistsQuery.graphql"
       export default <QueryRenderer<FavoriteArtistsQuery>
       query={graphql\`
@@ -74,7 +84,7 @@ describe("QueryRenderer", () => {
 
 describe("commitMutation", () => {
   it("requires graphql tagged template", () => {
-    const result = applyRuleToSourceText(dedent`
+    const result = applyRuleToSourceText(`
       commitMutation(this.props.relay.environment, {
         mutation: "",
       })
@@ -84,7 +94,7 @@ describe("commitMutation", () => {
   })
 
   it("fails on shorthand object literal assignment", () => {
-    const result = applyRuleToSourceText(dedent`
+    const result = applyRuleToSourceText(`
       commitMutation(this.props.relay.environment, {
         mutation,
       })

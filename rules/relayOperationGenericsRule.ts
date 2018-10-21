@@ -3,7 +3,7 @@ import * as Lint from "tslint"
 import * as ts from "typescript"
 
 export class Rule extends Lint.Rules.AbstractRule {
-  apply(sourceFile) {
+  apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     return this.applyWithWalker(new RelayOperationGenericsWalker(sourceFile, this.getOptions()))
   }
 }

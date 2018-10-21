@@ -102,4 +102,50 @@ describe("commitMutation", () => {
 
     expect(result.length).toBe(1)
   })
+
+  it("requires type parameters", () => {
+    const result = applyRuleToSourceText(`
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql\`
+        mutation ConfirmBidCreateCreditCardMutation($input: CreditCardInput!) {
+          createCreditCard(input: $input) {
+            id_or_whatever
+          }
+        }
+        \`,
+      })
+    `)
+
+    expect(result.length).toBe(1)
+  })
+
+  it("has a fix for commitMutation type parameter requirement", () => {
+    const sourceText = dedent`
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql\`
+        mutation ConfirmBidCreateCreditCardMutation($input: CreditCardInput!) {
+          createCreditCard(input: $input) {
+            id_or_whatever
+          }
+        }
+        \`,
+      })
+    `
+
+    const result = applyRuleToSourceText(sourceText)
+
+    expect(result[0].hasFix()).toBeTruthy()
+    expect(applyRuleFixes(sourceText, result)).toEqual(dedent`
+      import { ConfirmBidCreateCreditCardMutation } from "__generated__/ConfirmBidCreateCreditCardMutation.graphql"
+      commitMutation<ConfirmBidCreateCreditCardMutation>(this.props.relay.environment, {
+        mutation: graphql\`
+        mutation ConfirmBidCreateCreditCardMutation($input: CreditCardInput!) {
+          createCreditCard(input: $input) {
+            id_or_whatever
+          }
+        }
+        \`,
+      })
+    `)
+  })
 })

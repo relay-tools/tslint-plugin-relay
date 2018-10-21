@@ -21,7 +21,12 @@ Now you can add rules from this repo to the `rules` dictionary. See [this blog p
 
 #### relay-operation-generics
 
-Helps enforce type safety and adherence to TypeScript/Relay conventions.
+Helps enforce type safety and adherence to the following TypeScript/Relay conventions:
+
+- `QueryRenderer` components must include type parameters (includes fix).
+- `QueryRenderer` components must use `graphql` tagged template strings for their `query` prop.
+- calls to `commitMutation` must use  `graphql` tagged template strings for their `mutation` option.
+- calls to `commitMutation` must use full object literal syntax for their `mutation` option.
 
 ```json
 "relay-operation-generics": [

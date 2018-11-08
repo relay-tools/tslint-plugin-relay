@@ -1,6 +1,6 @@
 {
   "name": "tslint-plugin-relay",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "build/tslint-base.json",
   "author": "Ash Furrow <ash@ashfurrow.com> & Art.sy Inc",

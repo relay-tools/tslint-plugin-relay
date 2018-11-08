@@ -6,7 +6,7 @@
   "author": "Ash Furrow <ash@ashfurrow.com> & Art.sy Inc",
   "license": "MIT",
   "peerDependencies": {
-    "graphql": "^14.0.2"
+    "graphql": "^13.0.0 || ^14.0.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",

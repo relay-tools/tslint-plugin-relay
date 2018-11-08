@@ -14,4 +14,5 @@ cache:
 script:
 - yarn lint
 - yarn jest
-- yarn danger ci
+- '[ ! -z $DANGER_GITHUB_API_TOKEN ] && yarn danger ci || echo "Skipping Danger for External Contributor"'
+
